@@ -1,0 +1,153 @@
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4db2ff;
+  padding: 10px;
+  color: white;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row; /* Ensure this is flex-row */
+}
+
+/* Code and Action areas */
+.code-commands,
+.actions-area {
+  height: calc(100vh - 120px); /* Both sections take up full screen height */
+  border: 2px solid #ccc;
+  flex-grow: 1; /* Allow both sections to grow and fill space */
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Code Commands Section */
+.code-commands {
+  overflow-y: auto;
+}
+
+.actions-area {
+  min-height: 100px;
+}
+
+/* Command Item Styling */
+.command-item {
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: grab;
+  margin-bottom: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.command-item:hover {
+  background-color: #0056b3;
+}
+
+/* Action Item Styling */
+.action-item {
+  font-size: 16px;
+  background-color: #28a745;
+  padding: 12px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.action-item:hover {
+  background-color: #218838;
+}
+
+/* Delete Button Styling */
+.delete-button {
+  font-size: 18px;
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+/* "Done" Button Styling */
+.done-button {
+  background-color: #4db2ff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.done-button:hover {
+  background-color: #3498db;
+}
+
+/* "Back" Button Styling */
+.back-button {
+  background-color: white;
+  border: 2px solid #4db2ff;
+  color: #4db2ff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #4db2ff;
+  color: white;
+}
+
+/* Animation for adding/removing commands */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.command-item,
+.action-item {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .code-commands,
+  .actions-area {
+    height: auto;
+    margin-bottom: 20px;
+  }
+}
