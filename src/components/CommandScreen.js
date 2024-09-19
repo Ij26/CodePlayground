@@ -6,6 +6,7 @@ import "./CommandScreen.css";
 const CommandScreen = ({ onBack, onDone, sprite }) => {
   const [actions, setActions] = useState([]);
 
+  // Drop zone for dropping commands
   const [, drop] = useDrop({
     accept: "COMMAND",
     drop: (item) => {
@@ -13,10 +14,12 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
     },
   });
 
+  // Handle removing an action
   const handleRemoveAction = (index) => {
     setActions((prevActions) => prevActions.filter((_, i) => i !== index));
   };
 
+  // Dynamic heading based on sprite
   const heading = sprite === "cat" ? "Cat Commands" : "Rat Commands";
 
   return (
@@ -38,6 +41,7 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
       </header>
 
       <div className="flex flex-row p-4 h-full w-full">
+        {/* Left: List of code commands */}
         <div className="code-commands flex-grow bg-white p-4 rounded-md shadow-md overflow-y-scroll">
           <h2 className="text-xl font-bold mb-4">CODE</h2>
           <CommandItem command="Move X by 50" />
@@ -45,12 +49,13 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
           <CommandItem command="Move X by -50" />
           <CommandItem command="Move Y by -50" />
           <CommandItem command="Rotate 360" />
+          <CommandItem command="Move to (2, 3)" /> {/* New Command */}
+          <CommandItem command="Move to random point" /> {/* New Command */}
           <CommandItem command="Go to (0, 0)" />
-          <CommandItem command="Move X=50, Y=50" />
-          <CommandItem command="Go to random position" />
           <CommandItem command="Repeat" />
         </div>
 
+        {/* Right: Drop area for selected actions */}
         <div
           ref={drop}
           className="actions-area flex-grow bg-white p-4 rounded-md shadow-md ml-4"
