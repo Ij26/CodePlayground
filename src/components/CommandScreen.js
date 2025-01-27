@@ -49,7 +49,7 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
           <CommandItem command="Move X by -50" />
           <CommandItem command="Move Y by -50" />
           <CommandItem command="Rotate 360" />
-          <CommandItem command="Move to (2, 3)" />
+          {/* <CommandItem command="Move to (2, 3)" /> */}
           <CommandItem command="Move to random point" />
           <CommandItem command="Go to (0, 0)" />
           <CommandItem command="Repeat" />
