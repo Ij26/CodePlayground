@@ -41,15 +41,16 @@
   width: 100%;
 }
 
-/* Cat Area */
+/* Cat and Rat Area */
 .cat-area {
   width: 100%;
-  height: 300px; /* Adjust this height to suit */
+  height: 300px;
   background-color: white;
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 /* Control Section */
@@ -61,21 +62,6 @@
   width: 100%;
   padding: 20px;
   border-top: 1px solid #ccc;
-}
-
-/* Sprite Info Styling */
-.sprite-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sprite-input {
-  padding: 5px;
-  width: 50px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
 }
 
 /* Play Button Styling */
@@ -97,6 +83,21 @@
   background-color: #2980b9;
 }
 
+/* Reset Button Styling */
+.reset-button {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #f0f0f0;
+}
+
 /* Add Action Section */
 .action-container {
   display: flex;
@@ -104,8 +105,19 @@
   margin-top: 20px;
 }
 
-/* Box around Cat and Add Action Button */
-.cat-box,
+/* Cat Box */
+.cat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 150px;
+  padding: 10px;
+}
+
+/* Rat Box */
 .rat-box {
   display: flex;
   flex-direction: column;
@@ -114,16 +126,32 @@
   border-radius: 10px;
   border: 1px solid #ccc;
   width: 150px;
-  height: 150px;
-  justify-content: center;
+  padding: 10px;
+  position: relative; /* For positioning the delete button */
 }
 
-.small-cat-icon,
+/* Rat Header Styling */
+.rat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+/* Small Cat Icon */
+.small-cat-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+/* Small Rat Icon */
 .small-rat-icon {
   font-size: 40px;
   margin-bottom: 10px;
 }
 
+/* Add Action Button */
 .add-action-button {
   background-color: #4db2ff;
   color: white;
@@ -136,6 +164,29 @@
 
 .add-action-button:hover {
   background-color: #3498db;
+}
+
+/* Delete Button */
+.delete-button {
+  background-color: red;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: darkred;
 }
 
 /* Plus Symbol Box */
@@ -151,4 +202,25 @@
   font-size: 50px;
   color: #4db2ff;
   cursor: pointer;
+}
+
+.plus-box:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .cat-box,
+  .rat-box {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .control-section {
+    flex-direction: column;
+  }
 }

@@ -10,7 +10,7 @@
 
 .flex-row {
   display: flex;
-  flex-direction: row; /* Ensure this is flex-row */
+  flex-direction: row;
 }
 
 /* Code and Action areas */
@@ -55,10 +55,10 @@
   background-color: #28a745;
   padding: 12px;
   border-radius: 6px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -67,15 +67,19 @@
   background-color: #218838;
 }
 
-/* Delete Button Styling */
+/* Individual Delete Button Styling */
 .delete-button {
-  font-size: 18px;
   background-color: red;
-  border: none;
   color: white;
-  padding: 5px 10px;
-  border-radius: 6px;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
+  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: background-color 0.3s ease;
 }
 
@@ -122,15 +126,6 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }
 

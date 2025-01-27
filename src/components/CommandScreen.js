@@ -49,8 +49,8 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
           <CommandItem command="Move X by -50" />
           <CommandItem command="Move Y by -50" />
           <CommandItem command="Rotate 360" />
-          <CommandItem command="Move to (2, 3)" /> {/* New Command */}
-          <CommandItem command="Move to random point" /> {/* New Command */}
+          <CommandItem command="Move to (2, 3)" />
+          <CommandItem command="Move to random point" />
           <CommandItem command="Go to (0, 0)" />
           <CommandItem command="Repeat" />
         </div>
@@ -71,10 +71,10 @@ const CommandScreen = ({ onBack, onDone, sprite }) => {
               >
                 <span>{action}</span>
                 <button
-                  className="delete-button bg-red-500 text-white p-2 rounded-full ml-4"
+                  className="delete-button"
                   onClick={() => handleRemoveAction(index)}
                 >
-                  &#128465;
+                  🗑️
                 </button>
               </div>
             ))

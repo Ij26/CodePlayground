@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GiCat, GiRat } from "react-icons/gi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
-import { faPlay } from "@fortawesome/free-solid-svg-icons"; // Import the Play icon
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./MainScreen.css";
 
 const MainScreen = ({ catActions, ratActions, onAddAction }) => {
@@ -22,10 +22,8 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
     setIsAnimatingRat(false);
   };
 
-  const performActions = async (actions, setPosition, setRotation) => {
-    let index = 0;
-
-    const executeAction = (action) => {
+  const performActions = async (actions, setPosition, setRotation, isCat) => {
+    const executeAction = async (action) => {
       return new Promise((resolve) => {
         switch (action) {
           case "Move X by 50":
@@ -46,69 +44,99 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
           case "Go to (0, 0)":
             setPosition({ x: 0, y: 0 });
             break;
-          case "Move X=50, Y=50":
-            setPosition({ x: 50, y: 50 });
+          case "Move to random point":
+            const randomX = Math.floor(Math.random() * 200) - 100;
+            const randomY = Math.floor(Math.random() * 200) - 100;
+            setPosition({ x: randomX, y: randomY });
             break;
-          case "Go to random position":
-            setPosition((prev) => ({
-              ...prev,
-              x: Math.floor(Math.random() * 100),
-              y: Math.floor(Math.random() * 100),
-            }));
+          case "Move to (2, 3)":
+            setPosition({ x: 2, y: 3 });
             break;
           default:
             break;
         }
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 1000); // Delay for smooth transitions
       });
     };
 
-    const runCommands = async (commandList) => {
-      console.log(commandList);
-      for (index = 0; index < commandList.length; index++) {
-        await executeAction(commandList[index]);
-      }
-    };
-
-    if (actions.length > 0) {
-      const filteredActions = actions.filter((action) => action !== "Repeat");
-      await runCommands(filteredActions);
-
-      if (actions.includes("Repeat")) {
-        await runCommands(filteredActions);
+    for (let i = 0; i < actions.length; i++) {
+      if (actions[i] === "Repeat") {
+        const previousActions = actions.slice(0, i);
+        for (let action of previousActions) {
+          await executeAction(action);
+          detectCollision(); // Check collision after each move
+        }
+      } else {
+        await executeAction(actions[i]);
+        detectCollision(); // Check collision after each move
       }
     }
   };
 
+  const detectCollision = () => {
+    const distanceX = Math.abs(catPosition.x - ratPosition.x);
+    const distanceY = Math.abs(catPosition.y - ratPosition.y);
+
+    if (distanceX <= 10 && distanceY <= 10) {
+      // Collision detected: Swap actions and adjust positions
+      swapActions();
+      adjustPositions();
+    }
+  };
+
+  const swapActions = () => {
+    // Swap the actions between cat and rat
+    const temp = [...catActions];
+    catActions.length = 0;
+    ratActions.length = 0;
+    catActions.push(...ratActions);
+    ratActions.push(...temp);
+
+    console.log("Collision detected! Actions swapped!");
+  };
+
+  const adjustPositions = () => {
+    // Adjust positions to prevent overlap
+    setCatPosition((prev) => ({ ...prev, x: prev.x - 10 }));
+    setRatPosition((prev) => ({ ...prev, x: prev.x + 10 }));
+  };
+
   useEffect(() => {
-    if (isAnimatingCat) {
-      performActions(catActions, setCatPosition, setCatRotation);
+    if (isAnimatingCat && catActions.length > 0) {
+      performActions(catActions, setCatPosition, setCatRotation, true).then(
+        () => setIsAnimatingCat(false)
+      );
     }
   }, [isAnimatingCat, catActions]);
 
   useEffect(() => {
-    if (isAnimatingRat) {
-      performActions(ratActions, setRatPosition, setRatRotation);
+    if (isAnimatingRat && ratActions.length > 0) {
+      performActions(ratActions, setRatPosition, setRatRotation, false).then(
+        () => setIsAnimatingRat(false)
+      );
     }
   }, [isAnimatingRat, ratActions]);
 
   const handlePlayBoth = () => {
-    setIsAnimatingCat(true);
-    setIsAnimatingRat(true);
+    if (catActions.length > 0) setIsAnimatingCat(true);
+    if (ratActions.length > 0 && showRat) setIsAnimatingRat(true);
+  };
+
+  const removeRat = () => {
+    setShowRat(false);
+    setRatPosition({ x: 150, y: 0 });
   };
 
   return (
     <div className="main-container">
-      {/* Header Section */}
       <header className="header flex justify-between items-center">
         <span className="codeground-title">CodeGround</span>
         <button className="signin-button">Sign in</button>
       </header>
 
-      {/* Main Content */}
       <div className="main-content">
-        {/* Cat Area */}
         <div className="cat-area">
+          {/* Cat Icon */}
           <GiCat
             className="cat-icon"
             style={{
@@ -118,6 +146,7 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
               transition: "transform 1s ease",
             }}
           />
+          {/* Rat Icon */}
           {showRat && (
             <GiRat
               className="rat-icon"
@@ -131,10 +160,9 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
           )}
         </div>
 
-        {/* Control Section */}
         <div className="control-section">
           <button className="play-button" onClick={handlePlayBoth}>
-            <FontAwesomeIcon icon={faPlay} /> {/* Play icon added here */}
+            <FontAwesomeIcon icon={faPlay} />
           </button>
 
           <button className="reset-button" onClick={reset}>
@@ -142,7 +170,6 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
           </button>
         </div>
 
-        {/* Add Action Section */}
         <div className="action-container">
           <div className="cat-box">
             <GiCat className="small-cat-icon" />
@@ -160,12 +187,17 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
           ) : (
             <div className="rat-box">
               <GiRat className="small-rat-icon" />
-              <button
-                className="add-action-button"
-                onClick={() => onAddAction("rat")}
-              >
-                Add Actions
-              </button>
+              <div className="rat-actions-container">
+                <button
+                  className="add-action-button"
+                  onClick={() => onAddAction("rat")}
+                >
+                  Add Actions
+                </button>
+                <button className="delete-button" onClick={removeRat}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
             </div>
           )}
         </div>
