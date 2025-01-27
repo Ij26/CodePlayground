@@ -55,7 +55,7 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
           default:
             break;
         }
-        setTimeout(resolve, 1000); // Delay for smooth transitions
+        setTimeout(resolve, 1000); 
       });
     };
 
@@ -64,11 +64,11 @@ const MainScreen = ({ catActions, ratActions, onAddAction }) => {
         const previousActions = actions.slice(0, i);
         for (let action of previousActions) {
           await executeAction(action);
-          detectCollision(); // Check collision after each move
+          detectCollision(); 
         }
       } else {
         await executeAction(actions[i]);
-        detectCollision(); // Check collision after each move
+        detectCollision(); 
       }
     }
   };
